@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:withpet/core/theme/colors.dart';
 
 ThemeData lightMode = ThemeData(
   useMaterial3: true,
-  scaffoldBackgroundColor: Color(0xFFFFF2ED),
+  scaffoldBackgroundColor: AppColors.appBackground,
   textTheme: TextTheme(
     titleLarge: TextStyle(color: Color(0xff28222B)),
     titleMedium: TextStyle(color: Color(0xff28222B).withValues(alpha: 0.8)),
