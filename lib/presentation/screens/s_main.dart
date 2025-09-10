@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:withpet/core/theme/colors.dart';
-import 'package:withpet/presentation/screens/tabs/tab_community.dart';
+import 'package:withpet/presentation/screens/tabs/posting/tab_posting.dart';
 import 'package:withpet/presentation/screens/tabs/tab_my_page.dart';
 import 'package:withpet/presentation/viewmodels/main_view_model.dart';
 
@@ -16,7 +16,7 @@ class MainScreen extends ConsumerWidget {
 
     // 각 탭에 해당하는 화면 위젯 리스트
     final List<Widget> screens = [
-      const CommunityTab(), // 커뮤니티 탭
+      const PostingTab(), // 커뮤니티 탭
       const MyPageTab(), // 마이페이지 탭
     ];
 
@@ -24,36 +24,41 @@ class MainScreen extends ConsumerWidget {
       backgroundColor: AppColors.appBackground,
       // IndexedStack을 사용하여 탭 전환 시 각 화면의 상태를 유지합니다.
       body: IndexedStack(index: selectedIndex, children: screens),
-      bottomNavigationBar: BottomNavigationBar(
-        // 현재 선택된 탭 인덱스
-        currentIndex: selectedIndex,
-        // 탭을 눌렀을 때 Provider의 상태를 변경하여 화면을 전환합니다.
-        onTap: (index) {
-          ref.read(mainScreenBottomNavProvider.notifier).state = index;
-          print('Selected tab index: $index');
-        },
-        // 활성화된 탭의 색상
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        // 비활성화된 탭의 색상
-        unselectedItemColor: Colors.grey,
-        // 탭 아이템들
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            activeIcon: Icon(Icons.chat_bubble),
-            label: '커뮤니티',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          // 위쪽에만 1px 두께의 얇은 회색 선을 추가합니다.
+          border: Border(
+            top: BorderSide(color: Colors.grey.shade300, width: 1.0),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: '마이페이지',
-          ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.person_outline),
-          //   activeIcon: Icon(Icons.person),
-          //   label: '내 정보',
-          // ),
-        ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: AppColors.appBackground,
+          // elevation: 0을 추가하여 BottomNavigationBar 자체의 그림자를 제거해야
+          // 우리가 추가한 경계선이 더 깔끔하게 보입니다.
+          elevation: 0,
+          currentIndex: selectedIndex,
+          onTap: (index) {
+            ref.read(mainScreenBottomNavProvider.notifier).state = index;
+          },
+          selectedItemColor: AppColors.primary,
+          selectedIconTheme: const IconThemeData(size: 23),
+          selectedLabelStyle: const TextStyle(fontSize: 13),
+          unselectedItemColor: Colors.grey,
+          unselectedIconTheme: const IconThemeData(size: 20),
+          unselectedLabelStyle: const TextStyle(fontSize: 12),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble_outline),
+              activeIcon: Icon(Icons.chat_bubble),
+              label: '포스팅',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              activeIcon: Icon(Icons.person),
+              label: '마이페이지',
+            ),
+          ],
+        ),
       ),
     );
   }
