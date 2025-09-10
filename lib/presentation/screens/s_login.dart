@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final password = _passwordController.text;
                         print('Email: $email, Password: $password');
                         /// TODO: 로그인 기능 구현 및 go로 변환
-                        context.push('/main');
+                        context.push('/home');
                       },
                       child: const Text('로그인'),
                     ),

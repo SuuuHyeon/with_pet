@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:withpet/core/theme/colors.dart';
+import 'package:withpet/presentation/screens/tabs/home/tab_home.dart';
 import 'package:withpet/presentation/screens/tabs/posting/tab_posting.dart';
-import 'package:withpet/presentation/screens/tabs/tab_my_page.dart';
+import 'package:withpet/presentation/screens/tabs/mypage/tab_my_page.dart';
 import 'package:withpet/presentation/viewmodels/main_view_model.dart';
 
 // Riverpod을 사용하기 위해 StatelessWidget 대신 ConsumerWidget을 상속받습니다.
@@ -16,6 +17,7 @@ class MainScreen extends ConsumerWidget {
 
     // 각 탭에 해당하는 화면 위젯 리스트
     final List<Widget> screens = [
+      const HomeTab(),
       const PostingTab(), // 커뮤니티 탭
       const MyPageTab(), // 마이페이지 탭
     ];
@@ -28,13 +30,11 @@ class MainScreen extends ConsumerWidget {
         decoration: BoxDecoration(
           // 위쪽에만 1px 두께의 얇은 회색 선을 추가합니다.
           border: Border(
-            top: BorderSide(color: Colors.grey.shade300, width: 1.0),
+            top: BorderSide(color: Colors.grey.shade300, width: 0.7),
           ),
         ),
         child: BottomNavigationBar(
-          backgroundColor: AppColors.appBackground,
-          // elevation: 0을 추가하여 BottomNavigationBar 자체의 그림자를 제거해야
-          // 우리가 추가한 경계선이 더 깔끔하게 보입니다.
+          backgroundColor: Colors.white,
           elevation: 0,
           currentIndex: selectedIndex,
           onTap: (index) {
@@ -47,6 +47,11 @@ class MainScreen extends ConsumerWidget {
           unselectedIconTheme: const IconThemeData(size: 20),
           unselectedLabelStyle: const TextStyle(fontSize: 12),
           items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.pets_outlined),
+              activeIcon: Icon(Icons.pets),
+              label: '마이펫',
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.chat_bubble_outline),
               activeIcon: Icon(Icons.chat_bubble),

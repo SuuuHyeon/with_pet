@@ -23,8 +23,8 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/main',
-      name: 'main',
+      path: '/home',
+      name: 'home',
       builder: (context, state) {
         return const MainScreen();
       },
