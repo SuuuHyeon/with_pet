@@ -3,6 +3,18 @@
 
 ### Flutter ###
 # Flutter/Dart/Pub related
+#assets/config/.env
+firebase.json
+**/ios/ServiceDefinitions.json
+**/ios/GoogleService-Info.plist
+**/android/app/google-services.json
+**/android/app/src/debug/google-services.json
+**/android/app/src/profile/google-services.json
+**/android/app/src/release/google-services.json
+**/android/local.properties
+
+
+.idea/
 **/doc/api/
 .dart_tool/
 .flutter-plugins

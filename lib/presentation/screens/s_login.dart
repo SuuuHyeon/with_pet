@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     // 앱 로고
-                    Image.asset('assets/app/app_logo.png', height: 250),
+                    Image.asset('assets/logo/app_logo.png', height: 250),
 
                     // 이메일 입력 필드
                     TextFormField(
