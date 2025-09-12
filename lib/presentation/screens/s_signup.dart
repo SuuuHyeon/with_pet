@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:withpet/core/theme/colors.dart';
-import 'package:withpet/presentation/viewmodels/auth_view_model.dart';
-import 'package:withpet/presentation/viewmodels/home_view_model.dart';
+import 'package:withpet/presentation/viewmodels/signup_view_model.dart';
 import 'package:withpet/presentation/widgets/w_custom_dialog.dart';
 
 // 회원가입 페이지 UI를 구성하는 StatefulWidget입니다.
@@ -33,7 +32,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authViewModelProvider, (previous, next) {
+    ref.listen(signupViewModelProvider, (previous, next) {
       if (previous is AsyncLoading && next.hasError) {
         showCustomDialog(
           context,
@@ -42,6 +41,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           content: '회원가입에 실패하였습니다. 다시 시도해주세요!',
           onConfirm: () => context.pop(),
         );
+        print(next.error);
       }
       if (previous is AsyncLoading && !next.hasError) {
         showCustomDialog(
@@ -57,7 +57,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       }
     });
 
-    final authState = ref.watch(authViewModelProvider);
+    final authState = ref.watch(signupViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -136,7 +136,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                   ? null
                                   : () {
                                     ref
-                                        .read(authViewModelProvider.notifier)
+                                        .read(signupViewModelProvider.notifier)
                                         .signUp(
                                           email: _emailController.text.trim(),
                                           password:

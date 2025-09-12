@@ -6,9 +6,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 // 앱의 시작점입니다.
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(ProviderScope(child: const WithPetApp()));

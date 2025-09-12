@@ -40,6 +40,7 @@ class CustomDialog extends StatelessWidget {
     }
 
     return Dialog(
+      backgroundColor: AppColors.appBackground,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       child: Padding(
         padding: const EdgeInsets.all(24.0),
