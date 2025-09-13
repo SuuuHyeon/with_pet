@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:withpet/data/repositories/error_exceptions/login_error_exception.dart';
 
 // 인증 로직을 담고 있는 Repository 클래스
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
+
   AuthRepository(this._firebaseAuth);
 
   // 현재 로그인된 사용자 정보를 가져오는 getter
@@ -35,8 +37,8 @@ class AuthRepository {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      // TODO: 에러 처리 로직
-      throw Exception('로그인에 실패했습니다: ${e.message}');
+      // firebase 에러 코드를 던짐
+      throw AuthErrorException.fromCode(e.code);
     }
   }
 
