@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/theme/colors.dart';
 
 // 다이얼로그의 타입을 정의하는 enum
@@ -80,7 +81,7 @@ class CustomDialog extends StatelessWidget {
                 if (dialogType == DialogType.confirm) ...[
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => context.pop(),
                       child: const Text('취소'),
                     ),
                   ),

@@ -5,7 +5,7 @@ import 'package:withpet/presentation/screens/s_signup.dart';
 
 
 final GoRouter router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/home',
   routes: <RouteBase>[
     GoRoute(
       path: '/login', // URL 경로
