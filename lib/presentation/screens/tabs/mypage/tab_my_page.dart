@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../data/repositories/auth_repository.dart';
 
 class MyPageTab extends ConsumerWidget {
   const MyPageTab({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 2. userProfileProvider를 'watch'하여 현재 사용자 프로필의 상태를 가져옵니다.
+    //    이제 userProfileState는 로딩, 에러, 데이터 중 하나의 상태를 가집니다.
+    final userProfileState = ref.watch(userProfileProvider);
+
     return Scaffold(
       backgroundColor: AppColors.appBackground,
       appBar: AppBar(
@@ -15,79 +20,52 @@ class MyPageTab extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Column(
-          children: [
-            // 1. 사용자 프로필 요약 카드
-            _buildUserProfileCard(
-              context,
-              name: '수현님', // TODO: 실제 사용자 데이터로 교체
-              email: 'tngutnqls6909@gmail.com', // TODO: 실제 사용자 데이터로 교체
-            ),
-            const SizedBox(height: 24.0),
+      // 3. .when()을 사용하여 각 상태에 맞는 UI를 명확하게 그려줍니다.
+      body: userProfileState.when(
+        // '로딩 중' 상태일 때 보여줄 위젯
+        loading: () => const Center(child: CircularProgressIndicator()),
+        // '에러' 상태일 때 보여줄 위젯
+        error: (err, stack) => Center(child: Text('사용자 정보를 불러올 수 없습니다.')),
+        // '데이터 있음' 상태일 때 보여줄 위젯
+        data: (userModel) {
+          // 4. userModel이 null이면 로그아웃 상태, 아니면 로그인 상태입니다.
+          if (userModel == null) {
+            return const Center(
+              child: Text('로그인이 필요합니다.'), // TODO: 로그인 버튼으로 교체 가능
+            );
+          }
 
-            // 2. 메뉴 섹션
-            _buildMenuSection(
-              context,
-              title: '반려동물',
+          // 5. 성공적으로 UserModel을 가져왔으면, 그 데이터를 사용하여 UI를 그립니다.
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
+            child: Column(
               children: [
-                _MenuTile(
-                  icon: Icons.pets_outlined,
-                  title: '내 반려동물 관리',
-                  onTap: () {
-                    // TODO: 반려동물 관리 페이지로 이동
-                  },
+                // 사용자 프로필 카드
+                _buildUserProfileCard(
+                  context,
+                  name: userModel.nickname, // 👈 실제 사용자 닉네임 사용
+                  email: userModel.email, // 👈 실제 사용자 이메일 사용
                 ),
+                const SizedBox(height: 24.0),
+
+                // ... (로그아웃, 회원탈퇴 등 메뉴 섹션)
               ],
             ),
-            const SizedBox(height: 16.0),
-            _buildMenuSection(
-              context,
-              title: '계정 관리',
-              children: [
-                _MenuTile(
-                  icon: Icons.logout,
-                  title: '로그아웃',
-                  onTap: () {
-                    _showConfirmationDialog(
-                      context,
-                      title: '로그아웃',
-                      content: '정말 로그아웃 하시겠어요?',
-                      onConfirm: () {
-                        // TODO: 로그아웃 로직 구현
-                        Navigator.of(context).pop(); // 다이얼로그 닫기
-                      },
-                    );
-                  },
-                ),
-                _MenuTile(
-                  icon: Icons.person_remove_outlined,
-                  title: '회원탈퇴',
-                  textColor: Colors.red,
-                  onTap: () {
-                    _showConfirmationDialog(
-                      context,
-                      title: '회원탈퇴',
-                      content: '모든 정보가 삭제되며 복구할 수 없습니다.\n정말 탈퇴하시겠어요?',
-                      onConfirm: () {
-                        // TODO: 회원탈퇴 로직 구현
-                        Navigator.of(context).pop(); // 다이얼로그 닫기
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  // 사용자 프로필 카드 위젯
-  Widget _buildUserProfileCard(BuildContext context,
-      {required String name, required String email}) {
+  // 사용자 프로필 카드 위젯 (기존 코드와 동일)
+  Widget _buildUserProfileCard(
+    BuildContext context, {
+    required String name,
+    required String email,
+  }) {
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
@@ -107,7 +85,10 @@ class MyPageTab extends ConsumerWidget {
             children: [
               Text(
                 name,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
@@ -118,88 +99,6 @@ class MyPageTab extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-
-  // 메뉴 섹션 컨테이너 위젯
-  Widget _buildMenuSection(BuildContext context,
-      {required String title, required List<Widget> children}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
-          child: Text(
-            title,
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[700]),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(children: children),
-        ),
-      ],
-    );
-  }
-
-  // 확인 다이얼로그를 보여주는 함수
-  void _showConfirmationDialog(
-      BuildContext context, {
-        required String title,
-        required String content,
-        required VoidCallback onConfirm,
-      }) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(content),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('취소'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              onPressed: onConfirm,
-              child: Text('확인', style: TextStyle(color: title == '회원탈퇴' ? Colors.red : AppColors.primary)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-// 재사용 가능한 메뉴 타일 위젯
-class _MenuTile extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final VoidCallback onTap;
-  final Color? textColor;
-
-  const _MenuTile({
-    required this.icon,
-    required this.title,
-    required this.onTap,
-    this.textColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: textColor ?? AppColors.primary),
-      title: Text(title, style: TextStyle(color: textColor)),
-      trailing: const Icon(Icons.chevron_right, color: Colors.grey),
-      onTap: onTap,
     );
   }
 }

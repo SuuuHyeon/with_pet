@@ -3,7 +3,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:withpet/data/models/dto_schedule.dart';
 
-import '../../data/models/dto_pet.dart';
+import '../../data/models/pet_model.dart';
 
 class HomeState {
   final Pet pet;

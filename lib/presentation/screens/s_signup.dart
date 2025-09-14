@@ -141,6 +141,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                           email: _emailController.text.trim(),
                                           password:
                                               _passwordController.text.trim(),
+                                          nickname:
+                                              _nicknameController.text.trim(),
                                         );
                                   },
                           child: const Text('가입하기'),
