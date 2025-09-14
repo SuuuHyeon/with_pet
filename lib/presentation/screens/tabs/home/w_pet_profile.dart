@@ -3,27 +3,28 @@ import 'package:withpet/core/constants/app_sizes.dart';
 
 import '../../../../core/theme/colors.dart';
 
-// 반려동물 프로필 카드 위젯
+/// 화면 상단의 반려동물 대표 정보를 보여주는 헤더 위젯입니다.
 class PetProfileCard extends StatelessWidget {
-  final String imageUrl, name;
+  final String imageUrl, name, breed;
   final int age, daysTogether;
 
   const PetProfileCard({
+    super.key,
     required this.imageUrl,
     required this.name,
+    required this.breed,
     required this.age,
     required this.daysTogether,
-    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(
-        16.0,
-        context.statusBarHeight + 16.0,
-        16.0,
         24.0,
+        context.statusBarHeight + 16.0,
+        24.0,
+        32.0,
       ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -32,7 +33,7 @@ class PetProfileCard extends StatelessWidget {
           end: Alignment.bottomCenter,
         ),
         borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(32.0),
+          bottom: Radius.circular(40.0),
         ),
         boxShadow: [
           BoxShadow(
@@ -42,115 +43,45 @@ class PetProfileCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // 1. 상단 프로필 정보
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.5),
-                    width: 2,
-                  ),
-                ),
-                child: CircleAvatar(
-                  radius: 40,
-                  backgroundImage: NetworkImage(imageUrl),
-                  backgroundColor: Colors.grey[200],
-                ),
-              ),
-              const SizedBox(width: 16.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      '$age살',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Colors.white70,
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      '함께한 지 $daysTogether일째',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24.0),
-          // 2. 핵심 건강 정보 요약 컨테이너
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8.0,
-              vertical: 16.0,
-            ),
             decoration: BoxDecoration(
-              color: Color(0xFFFFBB99),
-              // color: Color(0xFFFFBB99),
-              borderRadius: BorderRadius.circular(16.0),
-              // AppSizes.largeCornerRadius
-              // border: Border.all(color: Colors.white.withOpacity(0.3)),
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white.withOpacity(0.5), width: 2),
             ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            child: CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(imageUrl),
+              backgroundColor: Colors.grey[200],
+            ),
+          ),
+          const SizedBox(width: 16.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: _InfoTile(
-                    icon: Icons.monitor_weight_outlined,
-                    label: '몸무게',
-                    value: '8.5kg',
-                  ),
+                Text(
+                  name,
+                  style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
-                SizedBox(
-                  height: 60, // 구분선의 높이 지정
-                  child: VerticalDivider(
-                    color: Colors.white,
-                    width: 1,
-                    thickness: 1,
-                  ),
+                const SizedBox(height: 4.0),
+                Text(
+                  '$breed / $age살',
+                  style: const TextStyle(fontSize: 15, color: Colors.white70),
                 ),
-                Expanded(
-                  child: _InfoTile(
-                    icon: Icons.rice_bowl_outlined,
-                    label: '사료',
-                    value: '하루 200g',
-                  ),
-                ),
-                SizedBox(
-                  height: 60, // 구분선의 높이 지정
-                  child: VerticalDivider(
-                    color: Colors.white,
-                    width: 1,
-                    thickness: 1,
-                  ),
-                ),
-                Expanded(
-                  child: _InfoTile(
-                    icon: Icons.pets_outlined,
-                    label: '오늘 산책',
-                    value: '45분 / 60분',
-                  ),
+                const SizedBox(height: 4.0),
+                Text(
+                  '함께한 지 $daysTogether일째',
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white),
                 ),
               ],
             ),
@@ -161,7 +92,53 @@ class PetProfileCard extends StatelessWidget {
   }
 }
 
-// 정보 타일 위젯
+/// 반려동물의 핵심 건강 정보를 요약해서 보여주는 카드 위젯입니다.
+class HealthSummary extends StatelessWidget {
+  const HealthSummary({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            )
+          ],
+        ),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _InfoTile(
+              icon: Icons.monitor_weight_outlined,
+              label: '몸무게',
+              value: '8.5kg',
+            ),
+            _InfoTile(
+              icon: Icons.rice_bowl_outlined,
+              label: '사료',
+              value: '하루 200g',
+            ),
+            _InfoTile(
+              icon: Icons.pets_outlined,
+              label: '오늘 산책',
+              value: '45분',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// 정보 타일 위젯 (밝은 배경용으로 수정)
 class _InfoTile extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -177,17 +154,17 @@ class _InfoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(icon, color: Colors.white, size: 28),
-        const SizedBox(height: 4.0), // AppSizes.gapV4
+        Icon(icon, color: AppColors.primary, size: 28),
+        const SizedBox(height: 8.0),
         Text(
           label,
-          style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12),
+          style: TextStyle(color: Colors.grey[600], fontSize: 12),
         ),
-        const SizedBox(height: 4.0), // AppSizes.gapV4
+        const SizedBox(height: 4.0),
         Text(
           value,
           style: const TextStyle(
-            color: Colors.white,
+            color: Colors.black87,
             fontSize: 14,
             fontWeight: FontWeight.bold,
           ),

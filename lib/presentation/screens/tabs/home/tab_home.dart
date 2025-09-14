@@ -29,10 +29,10 @@ class HomeTab extends ConsumerWidget {
                   imageUrl: pet.imageUrl,
                   name: pet.name,
                   age: pet.age,
-                  daysTogether: pet.daysTogether,
+                  daysTogether: pet.daysTogether, breed: '',
                 ),
                 const SizedBox(height: 24),
-
+                HealthSummary(),
                 // 2. 다가오는 일정
                 UpcomingScheduleCard(schedules: homeState.schedules),
               ],
