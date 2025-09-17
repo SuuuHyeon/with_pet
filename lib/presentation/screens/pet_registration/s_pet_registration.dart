@@ -6,7 +6,9 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:withpet/core/constants/app_sizes.dart';
 import 'package:withpet/core/theme/colors.dart';
+import 'package:withpet/presentation/widgets/w_custom_bottom_button.dart';
 
 import '../../../data/models/pet_model.dart';
 import '../../viewmodels/pet_register_view_model.dart';
@@ -60,13 +62,20 @@ class _PetRegistrationScreenState extends ConsumerState<PetRegistrationScreen> {
     return LoadingOverlay(
       isLoading: registrationState.isLoading,
       child: Scaffold(
-
         /// 하단 등록 버튼 (임시)
         /// TODO: ios, 안드로이드 분기 해야하나?
-        bottomNavigationBar: Container(
-          child: Text('버튼'),
-          height: 60,
-          color: Colors.blue,
+        // bottomNavigationBar: Container(
+        //   height: 80,
+        //   color: AppColors.primary,
+        //   margin: EdgeInsets.only(top: 10),
+        //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        //   child: Center(child: const Text('저장', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)),
+        // ),
+        bottomNavigationBar: CustomBottomButton(
+          text: '저장',
+          onPressed: _onSave,
+          /// TODO: 로딩 중 + 모든 필수 입력값이 채워졌을 때만 활성화
+          isDisabled: registrationState.isLoading,
         ),
         appBar: AppBar(
           backgroundColor: AppColors.appBackground,
@@ -155,7 +164,13 @@ class _PetRegistrationScreenState extends ConsumerState<PetRegistrationScreen> {
                 // 4. 성별
                 Row(
                   children: [
-                    const Text('성별', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    const Text(
+                      '성별',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -170,7 +185,7 @@ class _PetRegistrationScreenState extends ConsumerState<PetRegistrationScreen> {
                   //   AppColors.primary
                   // ],
                   activeBorders: [
-                    Border.all(color: AppColors.primary, width: 1.5)
+                    Border.all(color: AppColors.primary, width: 1.5),
                   ],
                   minWidth: double.infinity,
                   minHeight: 50.0,

@@ -12,4 +12,6 @@ extension ContextExtension on BuildContext {
 
   double width(double width) => deviceWidth * width;
   double height(double height) => deviceHeight * height;
+
+  TargetPlatform get platform => Theme.of(this).platform;
 }

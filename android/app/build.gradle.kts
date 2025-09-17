@@ -1,3 +1,7 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -8,10 +12,21 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        load(FileInputStream(localPropertiesFile))
+    }
+}
+
+
 android {
+//    namespace = "com.withpet.suhyeon.withpet"
+//    compileSdk = flutter.compileSdkVersion
+//    ndkVersion = flutter.ndkVersion
     namespace = "com.withpet.suhyeon.withpet"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = localProperties.getProperty("flutter.compileSdkVersion").toInt()
+    ndkVersion = localProperties.getProperty("flutter.ndkVersion")
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -27,8 +42,10 @@ android {
         applicationId = "com.withpet.suhyeon.withpet"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+//        minSdk = flutter.minSdkVersion
+//        targetSdk = flutter.targetSdkVersion
+        minSdk = localProperties.getProperty("flutter.minSdkVersion").toInt()
+        targetSdk = localProperties.getProperty("flutter.targetSdkVersion").toInt()
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
