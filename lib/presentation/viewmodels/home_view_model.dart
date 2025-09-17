@@ -16,38 +16,39 @@ class HomeState {
 // 홈 화면의 상태를 관리하는 Notifier
 class HomeViewModel extends StateNotifier<AsyncValue<HomeState>> {
   HomeViewModel() : super(const AsyncValue.loading()) {
-    _fetchHomeData();
+    // _fetchHomeData();
   }
 
-  // 홈 화면에 필요한 데이터를 가져오는 메서드
-  Future<void> _fetchHomeData() async {
-    try {
-      // 실제 앱에서는 여기서 Firebase 등에서 데이터를 불러옵니다.
-      // 지금은 더미 데이터로 대체합니다.
-      await Future.delayed(const Duration(seconds: 1)); // 가상 로딩
 
-      final dummyPet = Pet(
-        name: '초코',
-        imageUrl: 'https://mblogthumb-phinf.pstatic.net/MjAyMjAyMDdfMjEy/MDAxNjQ0MTk0Mzk2MzY3.WAeeVCu2V3vqEz_98aWMOjK2RUKI_yHYbuZxrokf-0Ug.sV3LNWlROCJTkeS14PMu2UBl5zTkwK70aKX8B1w2oKQg.JPEG.41minit/1643900851960.jpg?type=w800',
-        birthDate: DateTime(2022, 5, 10),
-        adoptedDate: DateTime(2022, 8, 1),
-      );
-
-      // 더미 데이터를 Schedule 모델을 사용하도록 변경
-      final dummySchedules = [
-        Schedule(id: '1', title: '9월 15일: 심장사상충 약 먹는 날'),
-        Schedule(id: '2', title: '9월 22일: 전체 미용 예약', isCompleted: true),
-        Schedule(id: '3', title: '10월 5일: 정기 검진일'),
-      ];
-
-      // 👈 추가: 초기 정렬 로직
-      dummySchedules.sort((a, b) => a.isCompleted ? 1 : -1);
-
-      state = AsyncValue.data(HomeState(pet: dummyPet, schedules: dummySchedules));
-    } catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-    }
-  }
+  // // 홈 화면에 필요한 데이터를 가져오는 메서드
+  // Future<void> _fetchHomeData() async {
+  //   try {
+  //     // 실제 앱에서는 여기서 Firebase 등에서 데이터를 불러옵니다.
+  //     // 지금은 더미 데이터로 대체합니다.
+  //     await Future.delayed(const Duration(seconds: 1)); // 가상 로딩
+  //
+  //     final dummyPet = Pet(
+  //       name: '초코',
+  //       imageUrl: 'https://mblogthumb-phinf.pstatic.net/MjAyMjAyMDdfMjEy/MDAxNjQ0MTk0Mzk2MzY3.WAeeVCu2V3vqEz_98aWMOjK2RUKI_yHYbuZxrokf-0Ug.sV3LNWlROCJTkeS14PMu2UBl5zTkwK70aKX8B1w2oKQg.JPEG.41minit/1643900851960.jpg?type=w800',
+  //       birthDate: DateTime(2022, 5, 10),
+  //       adoptedDate: DateTime(2022, 8, 1),
+  //     );
+  //
+  //     // 더미 데이터를 Schedule 모델을 사용하도록 변경
+  //     final dummySchedules = [
+  //       Schedule(id: '1', title: '9월 15일: 심장사상충 약 먹는 날'),
+  //       Schedule(id: '2', title: '9월 22일: 전체 미용 예약', isCompleted: true),
+  //       Schedule(id: '3', title: '10월 5일: 정기 검진일'),
+  //     ];
+  //
+  //     // 👈 추가: 초기 정렬 로직
+  //     dummySchedules.sort((a, b) => a.isCompleted ? 1 : -1);
+  //
+  //     state = AsyncValue.data(HomeState(pet: dummyPet, schedules: dummySchedules));
+  //   } catch (e, stack) {
+  //     state = AsyncValue.error(e, stack);
+  //   }
+  // }
 
   // 👈 추가: 스케줄 완료 상태를 토글하는 메서드
   void toggleScheduleCompletion(String scheduleId) {

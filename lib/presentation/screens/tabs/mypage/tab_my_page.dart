@@ -52,7 +52,7 @@ class MyPageTab extends ConsumerWidget {
                       icon: Icons.pets_outlined,
                       title: '내 반려동물 관리',
                       onTap: () {
-                        // TODO: 반려동물 관리 페이지로 이동
+                        context.push('/my-pets');
                       },
                     ),
                   ],

@@ -25,12 +25,12 @@ class HomeTab extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 1. 반려동물 프로필 카드
-                PetProfileCard(
-                  imageUrl: pet.imageUrl,
-                  name: pet.name,
-                  age: pet.age,
-                  daysTogether: pet.daysTogether, breed: '',
-                ),
+                // PetProfileCard(
+                //   imageUrl: pet.imageUrl,
+                //   name: pet.name,
+                //   age: pet.age,
+                //   daysTogether: pet.daysTogether, breed: '',
+                // ),
                 const SizedBox(height: 24),
                 HealthSummary(),
                 // 2. 다가오는 일정
@@ -43,6 +43,3 @@ class HomeTab extends ConsumerWidget {
     );
   }
 }
-
-
-

@@ -45,6 +45,16 @@ dependencies:
   firebase_core: ^4.1.0
   firebase_auth: ^6.0.2
   cloud_firestore: ^6.0.1
+  firebase_storage: ^13.0.1
+
+  # 이미지 픽커
+  image_picker: ^1.2.0
+
+  # intl
+  intl: ^0.20.2
+
+  # 토글버튼
+  toggle_switch: ^2.3.0
 
   # env
   flutter_dotenv: ^6.0.0
