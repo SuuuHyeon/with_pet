@@ -39,6 +39,7 @@ ThemeData lightMode = ThemeData(
       borderRadius: BorderRadius.circular(12.0),
       borderSide: const BorderSide(color: Color(0xFFF27507), width: 2.0),
     ),
+    floatingLabelStyle: const TextStyle(color: AppColors.primary),
   ),
 
   /// ToggleButtons 스타일 (개선안)

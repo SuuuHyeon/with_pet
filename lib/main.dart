@@ -44,13 +44,16 @@ class WithPetApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: router,
-      // home: const LoginScreen(),
-      title: 'withPet',
-      theme: lightMode,
-      darkTheme: darkMode,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
+        // home: const LoginScreen(),
+        title: 'withPet',
+        theme: lightMode,
+        darkTheme: darkMode,
+      ),
     );
   }
 }

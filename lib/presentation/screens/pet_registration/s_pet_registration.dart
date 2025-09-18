@@ -62,15 +62,7 @@ class _PetRegistrationScreenState extends ConsumerState<PetRegistrationScreen> {
     return LoadingOverlay(
       isLoading: registrationState.isLoading,
       child: Scaffold(
-        /// 하단 등록 버튼 (임시)
-        /// TODO: ios, 안드로이드 분기 해야하나?
-        // bottomNavigationBar: Container(
-        //   height: 80,
-        //   color: AppColors.primary,
-        //   margin: EdgeInsets.only(top: 10),
-        //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        //   child: Center(child: const Text('저장', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)),
-        // ),
+        /// 하단 버튼
         bottomNavigationBar: CustomBottomButton(
           text: '저장',
           onPressed: _onSave,
@@ -81,7 +73,7 @@ class _PetRegistrationScreenState extends ConsumerState<PetRegistrationScreen> {
           backgroundColor: AppColors.appBackground,
           scrolledUnderElevation: 0,
           title: const Text('반려동물 등록'),
-          actions: [TextButton(onPressed: _onSave, child: const Text('저장'))],
+          // actions: [TextButton(onPressed: _onSave, child: const Text('저장'))],
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -297,7 +289,6 @@ class _PetRegistrationScreenState extends ConsumerState<PetRegistrationScreen> {
 
   // 저장 버튼 로직
   void _onSave() {
-    // 키보드를 내립니다.
     FocusScope.of(context).unfocus();
 
     if (_formKey.currentState!.validate() && _imageFile != null) {
